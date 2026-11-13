@@ -32,6 +32,50 @@ const projects = [
     steps: ['Capture vehicle motion and seat pressure', 'Estimate passenger discomfort from vibration', 'Use the comfort estimate to inform suspension adjustments']
   }
 ];
+const projectDetails = {
+  "lifex": [
+    [
+      "What gets captured",
+      "A decision record connects the problem, design constraints, options considered, rationale, and supporting evidence to a component or application. The suspension walkthrough shows why that context matters when a team revisits a design rule."
+    ],
+    [
+      "Rear shock absorber walkthrough",
+      "The example separates core components such as the rebound bumper, rod guide, and rod from application-specific parts such as the spring seat, top mount, and bumper cap. It connects design rules, working limits, drawings, and reference applications."
+    ],
+    [
+      "From requirements to a reference design",
+      "An engineer can start with a new statement of requirements and ask for the closest reference application. The useful output is a candidate design with the source reasoning and remaining gaps to review."
+    ]
+  ],
+  "airwise": [
+    [
+      "Fleet monitoring",
+      "AirWise compares steering and braking response curves against validated OEM references. The fleet view helps surface drift by vehicle and subsystem, giving engineers a starting point for diagnosis."
+    ],
+    [
+      "OTA risk assessment",
+      "The simulation uses a trained PPO policy alongside checks on vehicle health and operating conditions. It evaluates whether a candidate update should proceed, be blocked, or be rolled back, and logs the decision for review."
+    ],
+    [
+      "What the demo shows",
+      "The React dashboard and FastAPI backend use synthetic telemetry to exercise the fleet and OTA workflows. A real rollout would require bench, hardware-in-the-loop, and field verification before deployment to vehicles."
+    ]
+  ],
+  "aisance": [
+    [
+      "Why passenger comfort needs its own model",
+      "Two passengers can experience the same road disturbance differently because vibration travels through the vehicle and seat before reaching the body. AISANCE models that path to estimate how the ride feels at the seat."
+    ],
+    [
+      "From sensing to suspension response",
+      "Vehicle motion and seat-pressure measurements feed the comfort model. Frequency-weighted RMS vibration provides a way to compare ride conditions, and the comfort estimate informs the adaptive suspension response."
+    ],
+    [
+      "Prototype and field work",
+      "The team tested the sensing and modeling approach on a campus bus. AISANCE earned third prize at the ninth edition of TECHgium for its passenger comfort modeling and adaptive suspension prototype."
+    ]
+  ]
+};
 const capabilities = [
   ['01', 'Engineering knowledge', 'Capture decisions, preserve their rationale and make technical context easier to retrieve.'],
   ['02', 'Fleet analytics', 'Compare vehicle behavior against reference curves and surface drift by subsystem.'],
@@ -119,7 +163,7 @@ function render(moveFocus = false) {
       observeMotion();
     });
   } else if (project) {
-    main.innerHTML = `<article class="wrap block inner"><a class="under" href="#projects">← All projects</a><div class="detail-hero ${project.id}">${label(project.number,project.category)}<h1 tabindex="-1">${project.name}<span class="dot">.</span></h1><p>${project.line}</p><span class="state">${project.status}</span>${project.website ? `<div class="actions"><a class="pill project-website" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} website ↗<span class="sr-only"> (opens in a new tab)</span></a></div>` : ""}</div><div class="detail-grid"><section><h2>Theme behind the idea</h2><p>${project.theme}</p><h2>How it works</h2><p>${project.approach}</p><ol>${names(project.steps)}</ol></section><aside><h3>People involved</h3><ul>${names(members)}</ul></aside></div></article>`;
+    main.innerHTML = `<article class="wrap block inner"><a class="under" href="#projects">← All projects</a><div class="detail-hero ${project.id}">${label(project.number,project.category)}<h1 tabindex="-1">${project.name}<span class="dot">.</span></h1><p>${project.line}</p><span class="state">${project.status}</span>${project.website ? `<div class="actions"><a class="pill project-website" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} website ↗<span class="sr-only"> (opens in a new tab)</span></a></div>` : ""}</div><div class="detail-grid"><section><h2>Theme behind the idea</h2><p>${project.theme}</p><h2>How it works</h2><p>${project.approach}</p><ol>${names(project.steps)}</ol>${projectDetails[project.id].map(([title, copy]) => `<h2>${title}</h2><p>${copy}</p>`).join('')}</section><aside><h3>People involved</h3><ul>${names(members)}</ul></aside></div></article>`;
   } else {
     main.innerHTML = '<section class="wrap block"><h1 tabindex="-1">Page unavailable.</h1><a class="under" href="#home">← Overview</a></section>';
   }
