@@ -1,14 +1,14 @@
 const main = document.querySelector('#main');
-const members = ['Vasudevan Rajagopalan', 'Hansel Thomas', 'Gururaj Nadiyal', 'Vijay Somanna', 'Adharshini K', 'Archanaa M'];
+const members = ['Vasudevan Rajagopalan', 'Hansel Thomas', 'Gururaj Nandiyal', 'Vijay Somanna', 'Adharshini K', 'Archanaa M'];
 const memberProfiles = {
   'Vasudevan Rajagopalan': ['vasudevan', 'Principal Architect, Orchestrator, Innovator', 'Presented AirWise at Global Open Hack.'],
   'Hansel Thomas': ['hansel', 'Innovator, Think-Tank, Business Analyst', 'Presented AirWise at Global Open Hack.'],
-  'Gururaj Nadiyal': ['gururaj', 'Innovator, Think-Tank, Technical Specialist'],
+  'Gururaj Nandiyal': ['gururaj', 'Innovator, Think-Tank, Technical Specialist'],
   'Vijay Somanna': ['vijay', 'Innovator, Think-Tank, Technical Specialist'],
   'Adharshini K': ['adharshini', 'AI/ML Engineer, Inquirer', 'Worked on passenger comfort modeling and system integration for AISANCE.'],
   'Archanaa M': ['archanaa', 'AI/ML Engineer, Inquirer', 'Worked on computer vision for AISANCE, detecting potholes and other road hazards.']
 };
-const sponsors = ['Shailendra Shrivastava', 'Ashish Kushu'];
+const sponsors = [['shailendra', 'Shailendra Shrivastava'], ['ashish', 'Ashish Kushu']];
 const projects = [
   {
     id: 'lifex', logo: '/logos/lifex.webp', number: '01', name: 'LifeX', website: 'https://lifex-roan.vercel.app', category: 'ENGINEERING KNOWLEDGE', status: 'In progress',
@@ -184,7 +184,7 @@ function profileSection() {
     const [portrait, role, bio] = memberProfiles[name];
     return `<article class="profile"><img class="member-portrait" src="/portraits/${portrait}.webp" width="288" height="288" alt="" loading="lazy"><div><h3>${name}</h3><p class="profile-role">${role}</p>${bio ? `<p>${bio}</p>` : ''}</div></article>`;
   });
-  return `<div class="profile-grid">${profiles.join('')}</div><section class="sponsor-section"><h2>Executive sponsors</h2><ul>${names(sponsors)}</ul></section>`;
+  return `<div class="profile-grid">${profiles.join('')}</div><section class="sponsor-section"><h2>Executive sponsors</h2><div class="profile-grid">${sponsors.map(([portrait, name]) => `<article class="profile"><img class="member-portrait" src="/portraits/${portrait}.webp" width="288" height="288" alt="" loading="lazy"><div><h3>${name}</h3></div></article>`).join('')}</div></section>`;
 }
 
 window.addEventListener('hashchange', () => render(true));
