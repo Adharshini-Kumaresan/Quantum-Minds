@@ -76,12 +76,6 @@ const projectDetails = {
     ]
   ]
 };
-const capabilities = [
-  ['01', 'Engineering knowledge', 'Capture decisions, preserve their rationale and make technical context easier to retrieve.'],
-  ['02', 'Fleet analytics', 'Compare vehicle behavior against reference curves and surface drift by subsystem.'],
-  ['03', 'AI prototyping', 'Prototype retrieval, forecasting and risk models around engineering workflows.'],
-  ['04', 'Validation planning', 'Define the evidence and checks an engineering team needs before advancing a change.']
-];
 const names = people => people.map(name => `<li>${name}</li>`).join('');
 const projectCard = p => `<a class="project ${p.id}" href="#projects/${p.id}"><div class="card-top"><span>${p.category}</span><span class="state">${p.status}</span></div><div class="project-identity">${p.logo ? `<img src="${p.logo}" alt="" loading="lazy">` : `<span class="aisance-wordmark" aria-hidden="true">AISANCE</span>`}</div><div class="card-bottom"><div><h3>${p.name}</h3><p>${p.line}</p></div><span class="arrow" aria-hidden="true">↗</span></div></a>`;
 const label = (_number, title) => `<div class="label">${title}</div>`;
@@ -119,11 +113,12 @@ function render(moveFocus = false) {
   }
   if (route === 'home') {
     main.innerHTML = `<section class="hero"><div class="wrap hero-grid"><div class="hero-copy">${label('QM','ENGINEERING INNOVATION GROUP')}<h1 tabindex="-1">The Quantum<br><em>Minds.</em></h1><p>An engineering group working on decision intelligence, connected fleets, and passenger comfort.</p><div class="actions"><a class="pill solid" href="#projects">Explore our projects ↗</a><a class="pill" href="#members">Meet the team</a></div></div><figure class="hero-art"><span class="burst" aria-hidden="true">✦</span><img src="/mascot.svg" alt="Quantum Minds mascot"><figcaption>THE QM MASCOT</figcaption></figure></div></section>
+    <section class="wrap block"><h2>Purpose</h2><p>We bring together engineers and technical specialists to make decisions easier to trace, vehicle performance easier to assess, and passenger comfort easier to measure.</p></section>
+    <section class="cap-section"><div class="wrap block"><h2>Mission &amp; Vision</h2><div class="people"><section><h3>Mission</h3><p>Build and test prototypes that turn engineering decisions, fleet signals, and ride measurements into evidence teams can act on.</p></section><section><h3>Vision</h3><p>Make evidence reusable across the vehicle lifecycle, from early design decisions to how vehicles behave on the road.</p></section></div></div></section>
+    <section class="wrap block"><div class="section-head"><h2>Members</h2><a class="under" href="#members">View members ↗</a></div>${profileSection()}</section>
     <section class="wrap block">${label('01','THE PORTFOLIO')}<div class="section-head"><h2>Our projects<span class="dot">.</span></h2><a class="under" href="#projects">Browse projects ↗</a></div><div class="grid">${projects.map(projectCard).join('')}</div></section>
     <section class="mindset"><div class="wrap block"><div class="section-head"><div><div class="label">OUR MINDSET</div><h2>How we think<span class="dot">.</span></h2></div></div>
     ${chapters.map(([number, title, copy, id]) => `<article class="chapter"><span class="chapter-index" aria-hidden="true">${number}</span><div><h3>${title}</h3><p>${copy}</p><a class="under" href="#projects/${id}">Explore ${projects.find(p => p.id === id).name} ↗</a></div></article>`).join('')}</div></section>
-    <section class="cap-section"><div class="wrap block">${label('02','CAPABILITIES')}<h2>What we build<span class="dot">.</span></h2><div class="cap-grid">${capabilities.map(([,title,copy]) => `<article><h3>${title}</h3><p>${copy}</p></article>`).join('')}</div></div></section>
-    <section class="wrap block">${label('03','THE PEOPLE')}<div class="section-head"><h2>Meet the minds<span class="dot">.</span></h2><a class="under" href="#members">View members ↗</a></div>${peopleSection()}</section>
 `;
     if (!hasShownIntro && window.matchMedia?.('(prefers-reduced-motion: no-preference)').matches) {
       hasShownIntro = true;
@@ -163,7 +158,17 @@ function render(moveFocus = false) {
       observeMotion();
     });
   } else if (project) {
-    main.innerHTML = `<article class="wrap block inner"><a class="under" href="#projects">← All projects</a><div class="detail-hero ${project.id}">${label(project.number,project.category)}<h1 tabindex="-1">${project.name}<span class="dot">.</span></h1><p>${project.line}</p><span class="state">${project.status}</span>${project.website ? `<div class="actions"><a class="pill project-website" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} website ↗<span class="sr-only"> (opens in a new tab)</span></a></div>` : ""}</div><div class="detail-grid"><section><h2>Theme behind the idea</h2><p>${project.theme}</p><h2>How it works</h2><p>${project.approach}</p><ol>${names(project.steps)}</ol>${projectDetails[project.id].map(([title, copy]) => `<h2>${title}</h2><p>${copy}</p>`).join('')}</section><aside><h3>People involved</h3><ul>${names(members)}</ul></aside></div></article>`;
+    main.innerHTML = `<article class="wrap block inner"><a class="under" href="#projects">← All projects</a><div class="detail-hero ${project.id}">${label(project.number,project.category)}<h1 tabindex="-1">${project.name}<span class="dot">.</span></h1><p>${project.line}</p><span class="state">${project.status}</span>${project.website ? `<div class="actions"><a class="pill project-website" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} website ↗<span class="sr-only"> (opens in a new tab)</span></a></div>` : ""}</div><div class="filters" aria-label="Project resources" role="group"><a class="pill solid" href="${project.website}" target="_blank" rel="noopener noreferrer">Live Demo ↗</a><button class="pill" type="button" data-resource="docs" aria-controls="project-docs" aria-pressed="true">Docs</button><button class="pill" type="button" data-resource="gallery" aria-controls="project-gallery" aria-pressed="false">Gallery</button></div><div id="project-docs"><div class="detail-grid"><section><h2>Theme behind the idea</h2><p>${project.theme}</p><h2>How it works</h2><p>${project.approach}</p><ol>${names(project.steps)}</ol>${projectDetails[project.id].map(([title, copy]) => `<h2>${title}</h2><p>${copy}</p>`).join('')}</section><aside><h3>People involved</h3><ul>${names(members)}</ul></aside></div></div><section id="project-gallery" hidden><h2>Gallery</h2><figure class="project ${project.id}"><div class="project-identity">${project.logo ? `<img src="${project.logo}" alt="${project.name} logo">` : '<span class="aisance-wordmark">AISANCE</span>'}</div><figcaption>${project.name} project identity</figcaption></figure></section></article>`;
+    const resourceButtons = main.querySelectorAll('[data-resource]');
+    for (const button of resourceButtons) {
+      button.addEventListener('click', () => {
+        for (const option of resourceButtons) {
+          const active = option === button;
+          option.setAttribute('aria-pressed', String(active));
+          main.querySelector('#project-' + option.dataset.resource).hidden = !active;
+        }
+      });
+    }
   } else {
     main.innerHTML = '<section class="wrap block"><h1 tabindex="-1">Page unavailable.</h1><a class="under" href="#home">← Overview</a></section>';
   }
@@ -182,8 +187,5 @@ function profileSection() {
   return `<div class="profile-grid">${profiles.join('')}</div><section class="sponsor-section"><h2>Executive sponsors</h2><ul>${names(sponsors)}</ul></section>`;
 }
 
-function peopleSection() {
-  return `<div class="people"><section><h3>Executive sponsors</h3><ul>${names(sponsors)}</ul></section><section><h3>Group members</h3><ul>${names(members)}</ul></section></div>`;
-}
 window.addEventListener('hashchange', () => render(true));
 render();
